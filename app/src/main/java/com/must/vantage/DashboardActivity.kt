@@ -46,6 +46,13 @@ fun DashboardScreen(navController: NavController) {
             style = MaterialTheme.typography.headlineMedium
         )
 
+            Spacer(modifier = Modifier.height(30.dp))
+
+        Text(
+            text = "A demo app from Meru University students, Jan-Apr 2026",
+            style = MaterialTheme.typography.headlineSmall
+        )
+
         Spacer(modifier = Modifier.height(30.dp))
 
         Button(onClick = { navController.navigate("profile") }) {

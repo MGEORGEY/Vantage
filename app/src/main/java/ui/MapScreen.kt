@@ -1,6 +1,10 @@
 package ui
 
+import android.Manifest
+import android.content.pm.PackageManager
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,6 +20,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.room.Room
 import com.google.android.gms.maps.model.CameraPosition
@@ -30,6 +35,8 @@ import data.LocationEntity
 fun MapScreen(navController: NavController) {
 
     val context = LocalContext.current
+
+    val hasPermission = ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)== PackageManager.PERMISSION_GRANTED;
 
     val db = remember {
         Room.databaseBuilder(
@@ -64,20 +71,37 @@ fun MapScreen(navController: NavController) {
                 )
             }
 
-            GoogleMap(
-                modifier = Modifier.fillMaxSize(),
-                cameraPositionState = cameraPositionState
-            ) {
-                locations.forEach { location ->
-                    Marker(
-                        state = MarkerState(
-                            position = LatLng(location.latitude, location.longitude)
-                        ),
-                        title = location.name,
-                        snippet = location.description
-                    )
+            if(hasPermission){
+                GoogleMap(
+                    modifier = Modifier.fillMaxSize(),
+                    cameraPositionState = cameraPositionState
+                ) {
+                    locations.forEach { location ->
+                        Marker(
+                            state = MarkerState(
+                                position = LatLng(location.latitude, location.longitude)
+                            ),
+                            title = location.name,
+                            snippet = location.description
+                        )
+                    }
                 }
             }
+            else{
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(20.dp),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Spacer(modifier = Modifier.height(40.dp))
+                    Text("Location permission required")
+
+                    requestLocationPermission(context)
+                }
+            }
+
         }
 
         // Floating Action Button to add a new location

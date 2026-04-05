@@ -26,7 +26,7 @@ fun SettingsScreen(navController: NavController) {
         Text(text = "Settings")
 
         Spacer(modifier = Modifier.height(20.dp))
-
+/*
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
@@ -49,6 +49,7 @@ fun SettingsScreen(navController: NavController) {
                 }
             )
         }
+        */
 
         Spacer(modifier = Modifier.height(20.dp))
 

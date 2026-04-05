@@ -48,7 +48,7 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
 
         Button(onClick = {
 
-            if (username == "1" && password == "1") {
+            if (username == "user1" && password == "user1") {
                 onLoginSuccess()
             } else {
                 message = "Invalid login"
